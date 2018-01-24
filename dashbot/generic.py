@@ -6,6 +6,7 @@ import json
 import traceback
 import os
 import logging
+import version
 
 class DashBotGeneric():
     
@@ -20,7 +21,7 @@ class DashBotGeneric():
         self.debug=debug
         self.printErrors=printErrors
         self.platform='alexa'
-        self.version = '0.0.1'
+        self.version = version.__version__
         self.source = 'pip'
         
     def getBasestring(self):
