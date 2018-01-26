@@ -1,6 +1,10 @@
 import os
+import sys
+import os.path
 import alexa
 import json
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import version
 
 class alexa_vl(alexa.alexa):

@@ -1,9 +1,11 @@
 from __future__ import print_function
-
+import os
 import sys
 import requests
-import os
+import os.path
 import logging
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import version
 
 class DashBotGeneric():
