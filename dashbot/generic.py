@@ -2,15 +2,13 @@ from __future__ import print_function
 
 import sys
 import requests
-import json
-import traceback
 import os
 import logging
 import version
 
 class DashBotGeneric():
     
-    def __init__(self,apiKey=None,debug=True,printErrors=True):
+    def __init__(self,apiKey,debug=False,printErrors=False):
         
         if 'DASHBOT_SERVER_ROOT' in os.environ:
             serverRoot = os.environ['DASHBOT_SERVER_ROOT']
@@ -20,7 +18,7 @@ class DashBotGeneric():
         self.apiKey=apiKey
         self.debug=debug
         self.printErrors=printErrors
-        self.platform='alexa'
+        self.platform='generic'
         self.version = version.__version__
         self.source = 'pip'
         

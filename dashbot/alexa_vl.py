@@ -1,13 +1,24 @@
-import sys
-import requests
-import json
-import traceback
 import os
-import logging
-
 import alexa
+import json
+import version
 
 class alexa_vl(alexa.alexa):
+    
+    def __init__(self,apiKey=None,debug=False,printErrors=False):
+        
+        if 'DASHBOT_SERVER_ROOT' in os.environ:
+            serverRoot = os.environ['DASHBOT_SERVER_ROOT']
+        else:
+            serverRoot = 'https://tracker.dashbot.io'        
+        self.urlRoot = serverRoot + '/track'        
+        self.apiKey=apiKey
+        self.debug=debug
+        self.printErrors=printErrors
+        self.platform='alexa'
+        self.version = version.__version__
+        self.source = 'pip_vl'
+    
     #vl initialize     
     def initialize(self,apiKey,session): 
         self.apiKey=apiKey
@@ -16,7 +27,10 @@ class alexa_vl(alexa.alexa):
     #vl track    
     def track(self,intent_name,intent_request,response):
         event = self.regenerateEvent(intent_name,intent_request['intent']['slots'])
-        
+        try:
+            response=json.loads(response)
+        except:
+            pass
         if isinstance(response, self.getBasestring()):
             speechText = response
         elif response is not None and 'response' in response and 'outputSpeech' in response.get('response',{}):
