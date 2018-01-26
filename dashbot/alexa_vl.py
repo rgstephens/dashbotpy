@@ -36,37 +36,15 @@ class alexa_vl(alexa.alexa):
         
     #vl track    
     def track(self,intent_name,intent_request,response):
-        event = self.regenerateEvent(intent_name,intent_request['intent']['slots'])
-        try:
-            response=json.loads(response)
-        except:
-            pass
-        if isinstance(response, self.getBasestring()):
-            speechText = response
-        elif response is not None and 'response' in response and 'outputSpeech' in response.get('response',{}):
-            speechObj = response['response']['outputSpeech']
-            if 'type' in speechObj:
-                if speechObj['type']=='SSML':
-                    speechText=response['response']['outputSpeech']['ssml']
-                elif speechObj['type']=='PlainText':
-                    speechText=response['response']['outputSpeech']['text']
-                
-        responseGenerated = self.generateResponse(speechText)
+        event = self.regenerateEvent(intent_request)
         self.logIncoming(event)
-        self.logOutgoing(event,responseGenerated)
+        self.logOutgoing(event,response)
         
     #vl helper
-    def regenerateEvent(self,intent,slots):
-        request = {
-            'type':'intent',
-            'intent': {
-                'name':intent,
-                'slots':slots
-            }
-        }
+    def regenerateEvent(self,intent_request):
         event = {
             'session': self.session,
-            'request':request,
+            'request':intent_request,
             'context':{
                 'System':{
                     'application':self.session['application'],

@@ -33,30 +33,26 @@ class alexa(generic.DashBotGeneric):
         
     def logIncoming(self,event):
         url = self.urlRoot + '?apiKey=' + self.apiKey + '&type=incoming&platform='+ self.platform + '&v=' + self.version + '-' + self.source
-        
-        if self.debug:
-            print('Dashbot Incoming:'+url)
-            print(json.dumps(event))
-            
+                    
         now = datetime.datetime.now()
-        timestamp = time.mktime(now.timetuple()) + now.microsecond * 1e-6
+        timestamp = int(1000*(time.mktime(now.timetuple()) + now.microsecond * 1e-6))
         
         data={
             'dashbot_timestamp':timestamp,
             'event':event,
             }
+        
+        if self.debug:
+            print('Dashbot Incoming:'+url)
+            print(json.dumps(data))
             
         self.makeRequest(url,'POST',data)
             
     def logOutgoing(self,event,response):
         url = self.urlRoot + '?apiKey=' + self.apiKey + '&type=outgoing&platform='+ self.platform + '&v=' + self.version + '-' + self.source
-        
-        if self.debug:
-            print('Dashbot Outgoing:'+url)
-            print(json.dumps(event))
-            
+                    
         now = datetime.datetime.now()
-        timestamp = time.mktime(now.timetuple()) + now.microsecond * 1e-6
+        timestamp = int(1000*(time.mktime(now.timetuple()) + now.microsecond * 1e-6))
         
         data={
             'dashbot_timestamp':timestamp,            
@@ -64,4 +60,8 @@ class alexa(generic.DashBotGeneric):
             'response':response            
         }
         
+        if self.debug:
+            print('Dashbot Outgoing:'+url)
+            print(json.dumps(data))
+                    
         self.makeRequest(url,'POST',data)
