@@ -5,10 +5,8 @@ import datetime
 import time
 import json
 
-
-import generic
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+import generic
 import version
 
 class alexa(generic.DashBotGeneric):
