@@ -6,7 +6,10 @@ import os.path
 import logging
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-import version
+try:
+    import version
+except:
+    from . import version
 
 class DashBotGeneric():
     

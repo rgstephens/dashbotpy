@@ -4,8 +4,14 @@ import os.path
 import json
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-import version
-import alexa
+try:
+    import version
+except:
+    from . import version
+try:
+    import alexa
+except:
+    from . import alexa
 
 class alexa_vl(alexa.alexa):
     
