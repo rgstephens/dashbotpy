@@ -15,7 +15,7 @@ try:
 except:
     from . import generic
 
-class alexa(generic.DashBotGeneric):
+class alexa(generic.generic):
         
     def __init__(self,apiKey,debug=False,printErrors=False):
         
@@ -37,6 +37,12 @@ class alexa(generic.DashBotGeneric):
         now = datetime.datetime.now()
         timestamp = int(1000*(time.mktime(now.timetuple()) + now.microsecond * 1e-6))
         
+        try:
+            event = json.loads(event)
+        except Exception as e:
+            if self.debug:
+                print(e)     
+                
         data={
             'dashbot_timestamp':timestamp,
             'event':event,
@@ -53,6 +59,12 @@ class alexa(generic.DashBotGeneric):
                     
         now = datetime.datetime.now()
         timestamp = int(1000*(time.mktime(now.timetuple()) + now.microsecond * 1e-6))
+        
+        try:
+            event = json.loads(event)
+        except Exception as e:
+            if self.debug:
+                print(e)           
         
         data={
             'dashbot_timestamp':timestamp,            

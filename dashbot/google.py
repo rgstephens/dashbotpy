@@ -15,7 +15,7 @@ try:
 except:
     from . import generic
 
-class google(generic.DashBotGeneric):
+class google(generic.generic):
         
     def __init__(self,apiKey,debug=False,printErrors=False):
         
@@ -37,6 +37,12 @@ class google(generic.DashBotGeneric):
         now = datetime.datetime.now()
         timestamp = int(1000*(time.mktime(now.timetuple()) + now.microsecond * 1e-6))
         
+        try:
+            event = json.loads(event)
+        except Exception as e:
+            if self.debug:
+                print(e)            
+        
         data={
             'dashbot_timestamp':timestamp,
             'request_body':event,
@@ -54,6 +60,18 @@ class google(generic.DashBotGeneric):
         now = datetime.datetime.now()
         timestamp = int(1000*(time.mktime(now.timetuple()) + now.microsecond * 1e-6))
         
+        try:
+            event = json.loads(event)
+        except Exception as e:
+            if self.debug:
+                print(e)           
+ 
+        try:
+            response = json.loads(response)
+        except Exception as e:
+            if self.debug:
+                print(e)      
+                
         data={
             'dashbot_timestamp':timestamp,            
             'request_body':event,

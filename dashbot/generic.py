@@ -4,6 +4,7 @@ import sys
 import requests
 import os.path
 import logging
+import json
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 try:
@@ -11,7 +12,7 @@ try:
 except:
     from . import version
 
-class DashBotGeneric():
+class generic():
     
     def __init__(self,apiKey,debug=False,printErrors=False):
         
@@ -48,3 +49,33 @@ class DashBotGeneric():
                 logging.error("ERROR: occurred sending data. Non 200 response from server:"+str(r.status_code))
         except ValueError as e:
             logging.error("ERROR: occurred sending data. Exception:",str(e))
+            
+    def logIncoming(self,data):
+        url = self.urlRoot + '?apiKey=' + self.apiKey + '&type=incoming&platform='+ self.platform + '&v=' + self.version + '-' + self.source
+                                  
+        try:
+            data = json.loads(data)
+        except Exception as e:
+            if self.debug:
+                print(e)       
+                                            
+        if self.debug:
+            print('Dashbot Incoming:'+url)
+            print(json.dumps(data))
+     
+        self.makeRequest(url,'POST',data)
+            
+    def logOutgoing(self,data):
+        url = self.urlRoot + '?apiKey=' + self.apiKey + '&type=outgoing&platform='+ self.platform + '&v=' + self.version + '-' + self.source
+                    
+        try:
+            data = json.loads(data)
+        except Exception as e:
+            if self.debug:
+                print(e)                        
+                    
+        if self.debug:
+            print('Dashbot Outgoing:'+url)
+            print(json.dumps(data))
+                    
+        self.makeRequest(url,'POST',data)            
