@@ -3,15 +3,8 @@ import sys
 import os.path
 import json
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-try:
-    import version
-except:
-    from . import version
-try:
-    import alexa
-except:
-    from . import alexa
+from .version import __version__
+from . import alexa
 
 class alexa_vl(alexa.alexa):
     
@@ -26,7 +19,7 @@ class alexa_vl(alexa.alexa):
         self.debug=debug
         self.printErrors=printErrors
         self.platform='alexa'
-        self.version = version.__version__
+        self.version = __version__
         self.source = 'pip_vl'
     
     #vl initialize     

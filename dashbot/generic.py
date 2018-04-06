@@ -6,11 +6,7 @@ import os.path
 import logging
 import json
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-try:
-    import version
-except:
-    from . import version
+from .version import __version__
 
 class generic():
     
@@ -25,14 +21,14 @@ class generic():
         self.debug=debug
         self.printErrors=printErrors
         self.platform='generic'
-        self.version = version.__version__
+        self.version = __version__
         self.source = 'pip'
         
     def getBasestring(self):
         if (sys.version_info > (3, 0)):
             return (str, bytes)
         else:
-            return basestring        
+            return basestring
 
     def makeRequest(self,url,method,json):
         try:
@@ -48,7 +44,7 @@ class generic():
             if r.status_code!=200:
                 logging.error("ERROR: occurred sending data. Non 200 response from server:"+str(r.status_code))
         except ValueError as e:
-            logging.error("ERROR: occurred sending data. Exception:",str(e))
+            logging.error("ERROR: occurred sending data. Exception:"+str(e))
             
     def logIncoming(self,data):
         url = self.urlRoot + '?apiKey=' + self.apiKey + '&type=incoming&platform='+ self.platform + '&v=' + self.version + '-' + self.source

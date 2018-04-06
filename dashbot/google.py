@@ -1,19 +1,10 @@
 import os
-import sys
-import os.path
 import datetime
 import time
 import json
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-try:
-    import version
-except:
-    from . import version
-try:
-    import generic
-except:
-    from . import generic
+from .version import __version__
+from . import generic
 
 class google(generic.generic):
         
@@ -28,7 +19,7 @@ class google(generic.generic):
         self.debug=debug
         self.printErrors=printErrors
         self.platform='google'
-        self.version = version.__version__
+        self.version = __version__
         self.source = 'pip'        
         
     def logIncoming(self,event):
