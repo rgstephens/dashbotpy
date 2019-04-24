@@ -57,6 +57,12 @@ class alexa(generic.generic):
             if self.debug:
                 print(e)           
         
+        try:
+            response = json.loads(response)
+        except Exception as e:
+            if self.debug:
+                print(e) 
+        
         data={
             'dashbot_timestamp':timestamp,            
             'event':event,
