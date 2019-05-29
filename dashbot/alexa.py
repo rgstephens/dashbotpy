@@ -21,6 +21,10 @@ class alexa(generic.generic):
         self.platform='alexa'
         self.version = __version__
         self.source = 'pip'        
+        self.outgoingIntent=''
+        
+    def setOutgoingIntent(self,intent):
+        self.outgoingIntent=intent
         
     def logIncoming(self,event):
         url = self.urlRoot + '?apiKey=' + self.apiKey + '&type=incoming&platform='+ self.platform + '&v=' + self.version + '-' + self.source
@@ -62,6 +66,9 @@ class alexa(generic.generic):
         except Exception as e:
             if self.debug:
                 print(e) 
+        
+        if 'response' not in response:
+            response={"version":"1.0","intent":self.outgoingIntent,"response":response}        
         
         data={
             'dashbot_timestamp':timestamp,            
