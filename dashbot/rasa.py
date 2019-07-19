@@ -1,6 +1,7 @@
 from .version import __version__
 from . import generic
 
+import json
 import os
 
 class rasa(generic.generic):
@@ -17,6 +18,24 @@ class rasa(generic.generic):
         self.version = __version__
         self.source = 'pip'
 
+    def logIncoming(self, data):
+        url = self.urlRoot + '?apiKey=' + self.apiKey + '&type=incoming&platform=' + self.platform + '&v=' + self.version + '-' + self.source
+
+        if self.debug:
+            print('Dashbot Incoming:' + url)
+            print(json.dumps(data))
+
+        self.makeRequest(url, 'POST', data)
+
+    def logOutgoing(self, data):
+        url = self.urlRoot + '?apiKey=' + self.apiKey + '&type=outgoing&platform=' + self.platform + '&v=' + self.version + '-' + self.source
+
+        if self.debug:
+            print('Dashbot Outgoing:' + url)
+            print(json.dumps(data))
+
+        self.makeRequest(url, 'POST', data)
+
     @classmethod
     def from_endpoint_config(
         cls, broker_config
@@ -31,4 +50,5 @@ class rasa(generic.generic):
         elif event['event'] is 'bot':
             self.logOutgoing(event)
         elif event['event'] is 'action':
-            self.logOutgoing(event)
+            if event['name'] is not 'action_listen':
+                self.logOutgoing(event)
