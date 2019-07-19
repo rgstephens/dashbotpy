@@ -1,6 +1,8 @@
 from .version import __version__
 from . import generic
 
+import os
+
 class rasa(generic.generic):
     def __init__(self, apiKey,debug=False, printErrors=False):
         if 'DASHBOT_SERVER_ROOT' in os.environ:
