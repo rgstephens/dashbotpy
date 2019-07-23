@@ -45,10 +45,10 @@ class rasa(generic.generic):
         return cls(**broker_config.kwargs)
 
     def publish(self, event):
-        if event['event'] is 'user':
+        if event['event'] == 'user':
             self.logIncoming(event)
-        elif event['event'] is 'bot':
+        elif event['event'] == 'bot':
             self.logOutgoing(event)
-        elif event['event'] is 'action':
-            if event['name'] is not 'action_listen':
+        elif event['event'] == 'action':
+            if event['name'] != 'action_listen':
                 self.logOutgoing(event)
