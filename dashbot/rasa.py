@@ -5,7 +5,7 @@ import json
 import os
 
 class rasa(generic.generic):
-    def __init__(self, apiKey,debug=False, printErrors=False):
+    def __init__(self, apiKey,debug=False, printErrors=False, proxies=None):
         if 'DASHBOT_SERVER_ROOT' in os.environ:
             serverRoot = os.environ['DASHBOT_SERVER_ROOT']
         else:
@@ -17,6 +17,7 @@ class rasa(generic.generic):
         self.platform = 'rasa'
         self.version = __version__
         self.source = 'pip'
+        self.proxies = proxies
 
     def logIncoming(self, data):
         url = self.urlRoot + '?apiKey=' + self.apiKey + '&type=incoming&platform=' + self.platform + '&v=' + self.version + '-' + self.source
@@ -25,7 +26,7 @@ class rasa(generic.generic):
             print('Dashbot Incoming:' + url)
             print(json.dumps(data))
 
-        self.makeRequest(url, 'POST', data)
+        self.makeRequest(url, 'POST', data, proxies=self.proxies)
 
     def logOutgoing(self, data):
         url = self.urlRoot + '?apiKey=' + self.apiKey + '&type=outgoing&platform=' + self.platform + '&v=' + self.version + '-' + self.source
@@ -34,7 +35,7 @@ class rasa(generic.generic):
             print('Dashbot Outgoing:' + url)
             print(json.dumps(data))
 
-        self.makeRequest(url, 'POST', data)
+        self.makeRequest(url, 'POST', data, proxies=self.proxies)
 
     @classmethod
     def from_endpoint_config(

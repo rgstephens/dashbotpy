@@ -30,12 +30,12 @@ class generic():
         else:
             return basestring
 
-    def makeRequest(self,url,method,json):
+    def makeRequest(self,url,method,json,proxies=None):
         try:
             if method=='GET':
-                r = requests.get(url, params=json)
+                r = requests.get(url, params=json, proxies=proxies)
             elif method=='POST':
-                r = requests.post(url, json=json)
+                r = requests.post(url, json=json, proxies=proxies)
             else:
                 print('Error in makeRequest, unsupported method')
             if self.debug:
